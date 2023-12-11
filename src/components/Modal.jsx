@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import FishModal from './FishModal';
 
 import "../style/modal.css";
@@ -27,8 +27,17 @@ const fishs = [
 ]
 
 const Modal = ({ hiddenModal, handleAddFish }) => {
+    const [name, setName] = useState("")
 
-    const container = fishs.map(({src, alt} )=> <FishModal key={src} src={src} alt={alt} handleAddFish={handleAddFish}/>)
+    const resetName = () => {
+        setName("")
+    }
+
+    const handleChangeName = (event) => {
+        setName(event.target.value)
+    }
+
+    const container = fishs.map(({src, alt} )=> <FishModal key={src} src={src} alt={alt} handleAddFish={handleAddFish} resetName={resetName} name={name}/>)
 
     return (
         <div className='modal' hidden={hiddenModal}>
@@ -36,8 +45,14 @@ const Modal = ({ hiddenModal, handleAddFish }) => {
                 <div className="modal-fish__wrapper">
                     {container}
                 </div>
-                <div>
-                    <input type="text" />
+                <div className='modal__input-wrapper'>
+                    <input 
+                        type="text" 
+                        className='modal__input'
+                        placeholder='Fish name' 
+                        onChange={handleChangeName}
+                        value={name}  
+                    />
                 </div>
             </div>
         </div>

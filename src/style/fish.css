@@ -12,5 +12,35 @@
 .fish__heals {
     width: 100%;
     height: 2px;
-    background-color: red;
+    background-color: green;
+    transition: background .5s ease;
+}
+
+.fish__title {
+    height: 2rem;
+    font-size: 1.4rem;
+    color: #000;
+    text-align: center;
+    text-transform: uppercase;
+    font-weight: bold;
+    background-color: aliceblue;
+    padding: 1rem;
+    border-radius: 15px;
+    opacity: 1;
+    position: absolute;
+    top: -55px;
+    left: 0;
+    right: 0;
+}
+
+.hidden {
+    opacity: 0;
+}
+
+.fish__name {
+    margin: 0;
+    font-size: 1.6rem;
+    text-align: center;
+    font-weight: bold;
+    color: #000;
 }

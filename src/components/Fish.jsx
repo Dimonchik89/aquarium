@@ -1,73 +1,65 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { createStructuredSelector } from 'reselect';
 import { maxWidth, maxHeight } from '../store/fish';
 import { connect } from 'react-redux';
 
 import "../style/fish.css";
 
-const Fish = ({ fish: { src, alt, posX, posY }, index, maxHeight, maxWidth }) => {
+const Fish = ({ fish: { src, alt, posX, posY, name }, index, maxHeight, maxWidth }) => {
     const fishRef = useRef(null)
     const healsRef = useRef(null)
+    const titleRef = useRef(null)
+    const fishImgRef = useRef(null)
+    const nameRef = useRef(null)
+    let heals = 100;
 
-    // function changePositionX() {
-    //     let newPosX = posX;
-    //     let positionX = "right"
+    function changeHealsLineColor(heals) {
+        if(heals <= 0) {
+            titleRef.current.classList.add("hidden")
+            fishImgRef.current.src = "./dead.png"
+            setTimeout(() => {
+                fishRef.current.style.display = "none"
+            }, 2000)
+            return;
+        }
+        if(heals <= 25) {
+            healsRef.current.style.background = "red";
+            if(titleRef.current.classList.contains("hidden")) {
+                titleRef.current.classList.remove("hidden")
+            }
+            return;
+        }
+        if(heals <= 50) {
+            healsRef.current.style.background = "orange";
+            return;
+        }
+        if(heals <= 75) {
+            healsRef.current.style.background = "yellow";
+        }
+        if(heals >= 90) {
+            healsRef.current.style.background = "green";
+        }
+    }
 
-    //     setInterval(() => {
-    //         if(newPosX === maxWidth - 30) {
-    //             positionX = "left"; 
-    //         }
-    //         if(newPosX === 30) {
-    //             positionX = "right";
-    //         }
 
-    //         if(positionX === "right") {
-    //             newPosX += 1;
-    //             fishRef.current.style.left = `${newPosX}px`;
-    //             fishRef.current.style.transform = "scaleX(1)";
-    //             return;
-    //         }
+    useEffect(() => {
+        if(healsRef?.current) {
+            function changeHeals() {
+                heals -= 0.05;
+                healsRef.current.style.width = `${heals}%`
+                changeHealsLineColor(heals);
 
-    //         if(positionX === 'left') {
-    //             newPosX -= 1;
-    //             fishRef.current.style.left = `${newPosX}px`;
-    //             fishRef.current.style.transform = "scaleX(-1)";
-    //             return;
-    //         }
-    //     }, 20)
-    // }
+                if(heals > 0) {
+                    requestAnimationFrame(changeHeals)
+                }
+            }
 
-    // function changePositionY() {
-    //     let newPosY = posY;
-    //     let positionY = "bottom"
+            if(heals > 0) {
+                requestAnimationFrame(changeHeals)
+            }
+        }
 
-    //     setInterval(() => {
-    //         if(newPosY === maxHeight - 30) {
-    //             positionY = "top";
-    //         }
-    //         if(newPosY === 30) {
-    //             positionY = "bottom";
-    //         }
-
-    //         if(positionY === "bottom") {
-    //             newPosY += 1;
-    //             fishRef.current.style.top = `${newPosY}px`;
-    //             return;
-    //         }
-
-    //         if(positionY === 'top') {
-    //             newPosY -= 1;
-    //             fishRef.current.style.top = `${newPosY}px`;
-    //             return;
-    //         }
-
-    //         fishRef.current.style.top = `${newPosY}px`;
-    //     }, 20)
-    // }
-
-    // changePositionX()
-    // changePositionY()
-
+    }, [healsRef])
  
 
 
@@ -75,8 +67,10 @@ const Fish = ({ fish: { src, alt, posX, posY }, index, maxHeight, maxWidth }) =>
     let positionY = "bottom"
 
     function changePositionY() {
-        requestAnimationFrame(changePositionY)
-        if(newPosY === maxHeight - 30) {
+        if(heals > 0) {
+            requestAnimationFrame(changePositionY)
+        }
+        if(newPosY === maxHeight - 46) {
             positionY = "top";
         }
         if(newPosY === 30) {
@@ -103,7 +97,9 @@ const Fish = ({ fish: { src, alt, posX, posY }, index, maxHeight, maxWidth }) =>
     let positionX = "right"
 
     function changePositionX() {
-        requestAnimationFrame(changePositionX)
+        if(heals > 0) {
+            requestAnimationFrame(changePositionX)
+        }
         if(newPosX === maxWidth - 30) {
             positionX = "left"; 
         }
@@ -115,6 +111,8 @@ const Fish = ({ fish: { src, alt, posX, posY }, index, maxHeight, maxWidth }) =>
             newPosX += 1;
             fishRef.current.style.left = `${newPosX}px`;
             fishRef.current.style.transform = "scaleX(1)";
+            titleRef.current.style.transform = "scaleX(1)";
+            nameRef.current.style.transform = "scaleX(1)";
             return;
         }
 
@@ -122,6 +120,8 @@ const Fish = ({ fish: { src, alt, posX, posY }, index, maxHeight, maxWidth }) =>
             newPosX -= 1;
             fishRef.current.style.left = `${newPosX}px`;
             fishRef.current.style.transform = "scaleX(-1)";
+            titleRef.current.style.transform = "scaleX(-1)";
+            nameRef.current.style.transform = "scaleX(-1)";
             return;
         }
     }
@@ -129,14 +129,32 @@ const Fish = ({ fish: { src, alt, posX, posY }, index, maxHeight, maxWidth }) =>
     requestAnimationFrame(changePositionY)
     requestAnimationFrame(changePositionX)
 
+    function feedFish() {
+        heals = 100;
+        titleRef.current.classList.add("hidden")
+    }
 
     return (
         <div 
             className='fish__wrapper'
             ref={fishRef}
+            onClick={feedFish}
             style={{top: `${posY}px`, left: `${posX}px`}}
         >
+            <p 
+                ref={titleRef}
+                className='fish__title hidden'
+            >
+                feed me
+            </p>
+            <p 
+                ref={nameRef}
+                className='fish__name'
+            >
+                {name}
+            </p>
             <img 
+                ref={fishImgRef}
                 className='fish'
                 src={src} 
                 alt={alt}

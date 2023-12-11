@@ -3,6 +3,7 @@
     height: 20rem;
     background-color: white;
     border-radius: 2rem;
+    z-index: 10;
 }
 
 .modal__container {
@@ -20,4 +21,20 @@
 .modal__fish {
     width: 7rem;
     cursor: pointer;
+}
+
+.modal__input-wrapper {
+    display: flex;
+    justify-content: center;
+    margin: 0 1rem;
+}
+
+.modal__input {
+    width: 100%;
+    font-size: 1.6rem;
+    padding: .5rem;
+}
+
+.modal__input:focus {
+    outline: none;
 }
