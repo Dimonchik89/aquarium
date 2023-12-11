@@ -7,67 +7,128 @@ import "../style/fish.css";
 
 const Fish = ({ fish: { src, alt, posX, posY }, index, maxHeight, maxWidth }) => {
     const fishRef = useRef(null)
-    const healthRef = useRef(null)
-    
+    const healsRef = useRef(null)
 
-    function changePositionX() {
-        let newPosX = posX;
-        let positionX = "right"
+    // function changePositionX() {
+    //     let newPosX = posX;
+    //     let positionX = "right"
 
-        setInterval(() => {
-            if(newPosX === maxWidth - 30) {
-                positionX = "left"; 
-            }
-            if(newPosX === 30) {
-                positionX = "right";
-            }
+    //     setInterval(() => {
+    //         if(newPosX === maxWidth - 30) {
+    //             positionX = "left"; 
+    //         }
+    //         if(newPosX === 30) {
+    //             positionX = "right";
+    //         }
 
-            if(positionX === "right") {
-                newPosX += 1;
-                fishRef.current.style.left = `${newPosX}px`;
-                fishRef.current.style.transform = "scaleX(1)";
-                return;
-            }
+    //         if(positionX === "right") {
+    //             newPosX += 1;
+    //             fishRef.current.style.left = `${newPosX}px`;
+    //             fishRef.current.style.transform = "scaleX(1)";
+    //             return;
+    //         }
 
-            if(positionX === 'left') {
-                newPosX -= 1;
-                fishRef.current.style.left = `${newPosX}px`;
-                fishRef.current.style.transform = "scaleX(-1)";
-                return;
-            }
-        }, 20)
-    }
+    //         if(positionX === 'left') {
+    //             newPosX -= 1;
+    //             fishRef.current.style.left = `${newPosX}px`;
+    //             fishRef.current.style.transform = "scaleX(-1)";
+    //             return;
+    //         }
+    //     }, 20)
+    // }
+
+    // function changePositionY() {
+    //     let newPosY = posY;
+    //     let positionY = "bottom"
+
+    //     setInterval(() => {
+    //         if(newPosY === maxHeight - 30) {
+    //             positionY = "top";
+    //         }
+    //         if(newPosY === 30) {
+    //             positionY = "bottom";
+    //         }
+
+    //         if(positionY === "bottom") {
+    //             newPosY += 1;
+    //             fishRef.current.style.top = `${newPosY}px`;
+    //             return;
+    //         }
+
+    //         if(positionY === 'top') {
+    //             newPosY -= 1;
+    //             fishRef.current.style.top = `${newPosY}px`;
+    //             return;
+    //         }
+
+    //         fishRef.current.style.top = `${newPosY}px`;
+    //     }, 20)
+    // }
+
+    // changePositionX()
+    // changePositionY()
+
+ 
+
+
+    let newPosY = posY;
+    let positionY = "bottom"
 
     function changePositionY() {
-        let newPosY = posY;
-        let positionY = "bottom"
+        requestAnimationFrame(changePositionY)
+        if(newPosY === maxHeight - 30) {
+            positionY = "top";
+        }
+        if(newPosY === 30) {
+            positionY = "bottom";
+        }
 
-        setInterval(() => {
-            if(newPosY === maxHeight - 30) {
-                positionY = "top";
-            }
-            if(newPosY === 30) {
-                positionY = "bottom";
-            }
-
-            if(positionY === "bottom") {
-                newPosY += 1;
-                fishRef.current.style.top = `${newPosY}px`;
-                return;
-            }
-
-            if(positionY === 'top') {
-                newPosY -= 1;
-                fishRef.current.style.top = `${newPosY}px`;
-                return;
-            }
-
+        if(positionY === "bottom") {
+            newPosY += 1;
             fishRef.current.style.top = `${newPosY}px`;
-        }, 20)
+            return;
+        }
+
+        if(positionY === 'top') {
+            newPosY -= 1;
+            fishRef.current.style.top = `${newPosY}px`;
+            return;
+        }
+
+        fishRef.current.style.top = `${newPosY}px`;
     }
 
-    changePositionX()
-    changePositionY()
+
+    let newPosX = posX;
+    let positionX = "right"
+
+    function changePositionX() {
+        requestAnimationFrame(changePositionX)
+        if(newPosX === maxWidth - 30) {
+            positionX = "left"; 
+        }
+        if(newPosX === 30) {
+            positionX = "right";
+        }
+
+        if(positionX === "right") {
+            newPosX += 1;
+            fishRef.current.style.left = `${newPosX}px`;
+            fishRef.current.style.transform = "scaleX(1)";
+            return;
+        }
+
+        if(positionX === 'left') {
+            newPosX -= 1;
+            fishRef.current.style.left = `${newPosX}px`;
+            fishRef.current.style.transform = "scaleX(-1)";
+            return;
+        }
+    }
+
+    requestAnimationFrame(changePositionY)
+    requestAnimationFrame(changePositionX)
+
 
     return (
         <div 
