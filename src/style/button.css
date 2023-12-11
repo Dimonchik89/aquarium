@@ -1,0 +1,25 @@
+.addButton {
+    width: 10rem;
+    height: 10rem;
+    border-radius: 50%;
+    background-color: azure;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.addButton span {
+    font-size: 5rem;
+}
+
+.hidden {
+    display: none;
+}
+
+.bottom {
+    position: absolute;
+    top: 70%;
+    right: 70%;
+    z-index: 1;
+}

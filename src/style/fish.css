@@ -1,0 +1,16 @@
+.fish__wrapper {
+    position: absolute;
+    transition: all .3s ease;
+}
+
+.fish {
+    width: 10rem;
+    /* position: absolute;
+    transition: all .3s ease; */
+}
+
+.fish__heals {
+    width: 100%;
+    height: 2px;
+    background-color: red;
+}
